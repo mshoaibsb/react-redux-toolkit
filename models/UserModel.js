@@ -42,14 +42,14 @@ UserSchema.methods.validatePassword = function(password) {
     const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
     return this.hash === hash;
   };
-// UserSchema.methods.toAuthJson = function(){
-//     return {
-//         _id: this._id,
-//         username: this.username,
-//         email: this.email,
-//         role: this.role,
-//     }
-// }
+UserSchema.methods.toJson = function(){
+    return {
+        _id: this._id,
+        username: this.username,
+        email: this.email,
+        role: this.role,
+    }
+}
 UserSchema.methods.generateJWT = function () {
     const today = new Date();
     const expiryDate = new Date(today);

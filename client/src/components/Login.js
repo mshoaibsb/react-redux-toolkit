@@ -1,3 +1,4 @@
+import React from 'react'
 import {
     Paper,
     Avatar,
@@ -8,7 +9,10 @@ import {
     Button
 } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
+import {useSelector, useDispatch} from 'react-redux';
 import { useState } from 'react';
+import { loggin } from '../features/auth'
+import {login} from '../services/index' 
 
 const Login = (props) => {
     // Styles
@@ -22,6 +26,10 @@ const Login = (props) => {
     // Logics
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const authentication = useSelector((state) => state.auth);
+    console.log(authentication)
+
+    const dispatch = useDispatch();
     const handleEmail = (e) => {
         setEmail(e.target.value)
     }
@@ -30,14 +38,17 @@ const Login = (props) => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(e);
+        login({email, password});
+        
+        dispatch(loggin({token:'adshfjksdaoi', loading: false, user:{_id:'1'}}))
+        console.log(authentication)
     }
     return(
         <Grid container direction="column" alignItems="center" justifyContent="center">
         <Paper elevation={10} style={paperStyle}>
             <Grid align='center'>
                 <Avatar style={avatarStyle}><LockIcon/></Avatar>
-                <h2>Sign In</h2>
+                <h2>{authentication.token}</h2>
             </Grid>  
             <form onSubmit={handleSubmit}>
             <TextField label="Email" type="email" placeholder="Enter email" variant="standard" fullWidth required id="email" onChange={handleEmail}/>

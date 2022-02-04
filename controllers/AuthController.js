@@ -58,5 +58,5 @@ module.exports = {
 
 function sendToken(user, statusCode, res) {
     const token = user.generateJWT();
-    return res.status(statusCode).json({success:true, token})
+    return res.status(statusCode).json({success: true, accessToken: token, user: user.toJson()})
 }
